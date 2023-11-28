@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=iwitness_be
+POSTGRES_USER=AqGHLacswxGvpCJZbampZWpMgAwHIuxv
+POSTGRES_PASSWORD=dvH4QiFDJPpy06xuoNLLHa3gvDS9kzzh3RWMVxolxWH2BLsRcI3KG8gdu79FEb3z
