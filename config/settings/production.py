@@ -176,3 +176,5 @@ SPECTACULAR_SETTINGS["SERVERS"] = [  # noqa: F405
 ]
 # Your stuff...
 # ------------------------------------------------------------------------------
+CORS_ORIGIN_WHITEELIST = ("https://iwitnessreporter.news",)
+CSRF_TRUSTED_ORIGINS = ("https://iwitnessreporter.news",)

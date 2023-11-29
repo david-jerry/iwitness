@@ -63,3 +63,11 @@ CELERY_TASK_ALWAYS_EAGER = True
 CELERY_TASK_EAGER_PROPAGATES = True
 # Your stuff...
 # ------------------------------------------------------------------------------
+CORS_ORIGIN_WHITEELIST = (
+    "http://localhost:8000",
+    "http://localhost:3000",
+)
+CSRF_TRUSTED_ORIGINS = (
+    "http://localhost:8000",
+    "http://localhost:3000",
+)

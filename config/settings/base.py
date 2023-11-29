@@ -331,6 +331,13 @@ SOCIALACCOUNT_ADAPTER = "iwitness_be.users.adapters.SocialAccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/forms.html
 SOCIALACCOUNT_FORMS = {"signup": "iwitness_be.users.forms.UserSocialSignupForm"}
 
+HOSTNAME = env("API_HOSTNAME", default="http://localhost:3000")
+
+# <EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
+EMAIL_CONFIRM_REDIRECT_BASE_URL = str(HOSTNAME / "email/confirm/")
+
+# <PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL>/<uidb64>/<token>/
+PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = str(HOSTNAME / "password-reset/confirm/")
 # django-rest-framework
 # -------------------------------------------------------------------------------
 # django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/

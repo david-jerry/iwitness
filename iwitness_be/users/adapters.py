@@ -17,6 +17,15 @@ class AccountAdapter(DefaultAccountAdapter):
     def is_open_for_signup(self, request: HttpRequest) -> bool:
         return getattr(settings, "ACCOUNT_ALLOW_REGISTRATION", True)
 
+    def get_email_confirmation_url(self, request, emailconfirmation):
+        scheme = request.scheme
+        host = request.get_host()
+
+        # Construct the full URL
+        full_url = f"{scheme}://{host}/api/v1/auth/registration/account-confirm-email/"
+        url = full_url + emailconfirmation.key
+        return url
+
 
 class SocialAccountAdapter(DefaultSocialAccountAdapter):
     def is_open_for_signup(self, request: HttpRequest, sociallogin: SocialLogin) -> bool:
