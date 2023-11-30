@@ -5,7 +5,11 @@ import typing
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpRequest
+from django.urls import reverse
+
+from iwitness_be.utils import context_manager
 
 if typing.TYPE_CHECKING:
     from allauth.socialaccount.models import SocialLogin
@@ -25,6 +29,38 @@ class AccountAdapter(DefaultAccountAdapter):
         full_url = f"{scheme}://{host}/api/v1/auth/registration/account-confirm-email/"
         url = full_url + emailconfirmation.key
         return url
+
+    def send_account_already_exists_mail(self, email):
+        from allauth.utils import build_absolute_uri
+
+        signup_url = build_absolute_uri(context_manager.request, reverse("account_signup"))
+        password_reset_url = build_absolute_uri(context_manager.request, reverse("account_reset_password"))
+        ctx = {
+            "request": context_manager.request,
+            "current_site": get_current_site(context_manager.request),
+            "email": email,
+            "signup_url": signup_url,
+            "password_reset_url": password_reset_url,
+        }
+        self.send_mail("account/email/account_already_exists", email, ctx)
+
+    def send_confirmation_mail(self, request, emailconfirmation, signup):
+        current_site = get_current_site(request)
+        activate_url = self.get_email_confirmation_url(request, emailconfirmation)
+        ctx = {
+            "user": emailconfirmation.email_address.user,
+            "activate_url": activate_url,
+            "current_site": current_site,
+            "key": emailconfirmation.key,
+        }
+        if signup:
+            email_template = "account/email/email_confirmation_signup"
+        else:
+            email_template = "account/email/email_confirmation"
+        self.send_mail(email_template, emailconfirmation.email_address.email, ctx)
+
+    def get_client_ip(self, request):
+        return super().get_client_ip(request)
 
 
 class SocialAccountAdapter(DefaultSocialAccountAdapter):

@@ -102,6 +102,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "iwitness_be.users",
     # Your stuff: custom apps go here
+    "iwitness_be.monetize",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -121,7 +122,10 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
+HOSTNAME: str = env("API_HOSTNAME", default="http://localhost:3000")
+
 LOGIN_REDIRECT_URL = "users:redirect"
+LOGOUT_REDIRECT_URL = HOSTNAME
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "account_login"
 
@@ -309,6 +313,7 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_WORKER_SEND_TASK_EVENTS = True
 # https://docs.celeryq.dev/en/stable/userguide/configuration.html#std-setting-task_send_sent_event
 CELERY_TASK_SEND_SENT_EVENT = True
+
 # django-allauth
 # ------------------------------------------------------------------------------
 ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
@@ -331,13 +336,12 @@ SOCIALACCOUNT_ADAPTER = "iwitness_be.users.adapters.SocialAccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/forms.html
 SOCIALACCOUNT_FORMS = {"signup": "iwitness_be.users.forms.UserSocialSignupForm"}
 
-HOSTNAME = env("API_HOSTNAME", default="http://localhost:3000")
 
 # <EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
-EMAIL_CONFIRM_REDIRECT_BASE_URL = str(HOSTNAME / "auth/email/confirm/")
+EMAIL_CONFIRM_REDIRECT_BASE_URL = str(HOSTNAME + "/auth/email/confirm/")
 
 # <PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL>/<uidb64>/<token>/
-PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = str(HOSTNAME / "auth/password-reset/confirm/")
+PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = str(HOSTNAME + "/auth/password-reset/confirm/")
 # django-rest-framework
 # -------------------------------------------------------------------------------
 # django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
@@ -353,6 +357,7 @@ REST_FRAMEWORK = {
 
 REST_AUTH = {
     "USE_JWT": True,
+    "JWT_AUTH_HTTPONLY": False,
     "JWT_AUTH_COOKIE": "iwitness-token",
     "JWT_AUTH_REFRESH_COOKIE": "iwitness-refresh-token",
 }
@@ -374,3 +379,5 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+PAYSTACK_SECRET_KEY = env("PAYSTACK_SK")
+PAYSTACK_PUBLICK_KEY = env("PAYSTACK_PK")

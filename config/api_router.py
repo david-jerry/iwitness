@@ -17,6 +17,10 @@ router.register("users", UserViewSet, basename="users")
 app_name = "api"
 urlpatterns = router.urls
 
+
+# https://testdriven.io/blog/django-rest-auth/
+# to setup the registration pages correctly to work with email verification
+# and password reset
 urlpatterns += [
     path("auth/", include("dj_rest_auth.urls")),
     path("auth/registration/verify-email/", VerifyEmailView.as_view(), name="account_verify_email"),
