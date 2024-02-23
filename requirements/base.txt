@@ -28,7 +28,7 @@ drf-spectacular==0.26.5  # https://github.com/tfranzel/drf-spectacular
 django-admin-honeypot==1.1.0 # https://pypi.org/project/django-admin-honeypot/
 django-4-jet==1.0.9
 feedparser==6.0.10
-google-api-python-client==1.4.1
+google-api-python-client==2.119.0
 python-magic==0.4.27
 loguru==0.7.2
 thefuzz[speedup]==0.20.0
